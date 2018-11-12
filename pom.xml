@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>io.codelair.microprofile</groupId>
+    <artifactId>restclient</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <failOnMissingWebXml>false</failOnMissingWebXml>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>3.3.2</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/openapi-spec/openapi.yaml</inputSpec>
+                            <addCompileSourceRoot>true</addCompileSourceRoot>
+                            <generatorName>jaxrs-spec</generatorName>
+                            <generateApiDocumentation>false</generateApiDocumentation>
+                            <generateApiTests>false</generateApiTests>
+                            <generateModelDocumentation>false</generateModelDocumentation>
+                            <generateModelTests>false</generateModelTests>
+                            <generateSupportingFiles>false</generateSupportingFiles>
+                            <apiPackage>io.codelair.microprofile.restclient.client.api</apiPackage>
+                            <modelPackage>io.codelair.microprofile.restclient.client.model</modelPackage>
+                            <withXml>false</withXml>
+                            <configOptions>
+                                <java8>true</java8>
+                                <dateLibrary>java8</dateLibrary>
+                                <useSwaggerAnnotations>false</useSwaggerAnnotations>
+                                <useBeanValidation>false</useBeanValidation>
+                                <interfaceOnly>true</interfaceOnly>
+                                <!-- Workaround for a bug. -->
+                                <sourceFolder>java</sourceFolder>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.microprofile</groupId>
+            <artifactId>microprofile</artifactId>
+            <version>2.0.1</version>
+            <type>pom</type>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Not strictly needed because there is JSON-B but as long as the code generator doesn't support
+        generation of JSON-B-annotated models we ride on the fact that most servers actually use Jackson. -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.9.7</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+</project>

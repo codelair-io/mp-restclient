@@ -1,0 +1,38 @@
+openapi: 3.0.0
+info:
+  title: Pinboard API
+  version: 1.0.0
+servers:
+- url: http://localhost:9080/app/api
+paths:
+  /pinboard:
+    get:
+      operationId: doGet
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Note'
+    post:
+      operationId: doPost
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Note'
+      responses:
+        default:
+          description: default response
+components:
+  schemas:
+    Note:
+      type: object
+      properties:
+        message:
+          type: string
+        author:
+          type: string
